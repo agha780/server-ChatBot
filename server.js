@@ -77,6 +77,23 @@ app.get("/products/last", (req, res) => {
     return res.status(400).json({ error: "Email parameter is required" });
   }
 
+  app.get("/products/by-email", (req, res) => {
+    const email = req.query.email;
+    if (!email) {
+      return res.status(400).json({ error: "Email parameter is required" });
+    }
+
+    Booking.find({ email: email })
+      .sort({ dropOffDate: -1 }) // Sort by most recent drop-off date
+      .then((bookings) => {
+        res.json(bookings);
+      })
+      .catch((err) => {
+        console.error("Error fetching bookings:", err);
+        res.status(500).json({ error: "Internal server error" });
+      });
+  });
+
   Booking.findOne({ email: email })
     .sort({ dropOffDate: -1 }) // Sort by most recent drop-off date
     .then((booking) => {
