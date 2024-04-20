@@ -1,6 +1,7 @@
+require("dotenv").config(); //
 const express = require("express");
 const app = express();
-const port = 3000;
+const PORT = process.env.PORT;
 const cors = require("cors");
 const bodyParser = require("body-parser");
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -9,7 +10,7 @@ app.use(cors());
 
 const mongoose = require("mongoose");
 mongoose
-  .connect("mongodb://localhost:27017/bookingdataDB", {
+  .connect(process.env.MONGODB_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
@@ -109,6 +110,6 @@ app.get("/products/last", (req, res) => {
     });
 });
 
-app.listen(port, () => {
-  console.log(`Server listening on port ${port}`);
+app.listen(8000, () => {
+  console.log(`Server listening on port 8000`);
 });
