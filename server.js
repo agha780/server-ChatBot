@@ -110,6 +110,6 @@ app.get("/products/last", (req, res) => {
     });
 });
 
-app.listen(8000, () => {
-  console.log(`Server listening on port 8000`);
+app.listen(PORT, () => {
+  console.log(`Server listening on port ${PORT}`);
 });
