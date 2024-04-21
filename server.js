@@ -73,40 +73,20 @@ app.get("/", (req, res) => {
 });
 
 // New endpoint to get the last booking by email
-app.get("/products/last", (req, res) => {
+
+app.get("/products/by-email", (req, res) => {
   const email = req.query.email;
   if (!email) {
     return res.status(400).json({ error: "Email parameter is required" });
   }
 
-  app.get("/products/by-email", (req, res) => {
-    const email = req.query.email;
-    if (!email) {
-      return res.status(400).json({ error: "Email parameter is required" });
-    }
-
-    Booking.find({ email: email })
-      .sort({ dropOffDate: -1 }) // Sort by most recent drop-off date
-      .then((bookings) => {
-        res.json(bookings);
-      })
-      .catch((err) => {
-        console.error("Error fetching bookings:", err);
-        res.status(500).json({ error: "Internal server error" });
-      });
-  });
-
-  Booking.findOne({ email: email })
+  Booking.find({ email: email })
     .sort({ dropOffDate: -1 }) // Sort by most recent drop-off date
-    .then((booking) => {
-      if (booking) {
-        res.json(booking);
-      } else {
-        res.status(404).json({ error: "No booking found for this email" });
-      }
+    .then((bookings) => {
+      res.json(bookings);
     })
     .catch((err) => {
-      console.error("Error fetching booking:", err);
+      console.error("Error fetching bookings:", err);
       res.status(500).json({ error: "Internal server error" });
     });
 });
