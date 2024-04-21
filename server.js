@@ -11,8 +11,8 @@ app.use(cors());
 const mongoose = require("mongoose");
 mongoose
   .connect(process.env.MONGODB_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
+    // useNewUrlParser: true,
+    // useUnifiedTopology: true,
   })
   .then(() => console.log("MongoDB successfully connected"))
   .catch((err) => console.error("MongoDB connection error:", err));
@@ -30,7 +30,7 @@ const bookingSchema = new mongoose.Schema({
   pickUpDate: Date,
   dropOffDate: Date,
 });
-
+// will be in bookings collection in atalas mongoDB
 const Booking = mongoose.model("Booking", bookingSchema, "bookings");
 
 app.post("/products", (req, res) => {
@@ -58,7 +58,7 @@ app.post("/products", (req, res) => {
       res.status(500).json({ error: "Internal server error" });
     });
 });
-
+// im geting the data from /products which already post in the mongoDB
 app.get("/products", (req, res) => {
   Booking.find()
     .then((data) => {
@@ -69,6 +69,10 @@ app.get("/products", (req, res) => {
       console.error("Error fetching data:", err);
       res.status(500).json({ error: "Internal server error" });
     });
+});
+
+app.get("/", (req, res) => {
+  res.send("Welcome to the Chat Bot Server!");
 });
 
 // New endpoint to get the last booking by email
